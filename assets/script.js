@@ -47,7 +47,6 @@ function getInput(e) {
   // console.log('working')
   e.preventDefault();
   input = form.value;
-  console.log(input);
   // check which input is checked
   if (input && countryRadioEl.checked) {
     getLocation(input);
@@ -71,7 +70,6 @@ async function searchWeather(location) {
     `https://api.openweathermap.org/data/2.5/weather?q=${location}${APIkey}`
   );
   const data = await response.json();
-  console.log(data);
   displayWeather(data);
 }
 
@@ -108,7 +106,6 @@ function deselectAnswers() {
 async function getLocation(name) {
   const response = await fetch(`https://restcountries.com/v3.1/name/` + name);
   const data = await response.json();
-  console.log(data);
   if (!response.ok) {
     sectionContainer.style.display = "none";
     showAlert("Country not found, please try again.");
@@ -123,7 +120,6 @@ async function getLocationCapital(name) {
     `https://restcountries.com/v3.1/capital/` + name
   );
   const data = await response.json();
-  console.log(data);
   if (!response.ok) {
     sectionContainer.style.display = "none";
     showAlert("Capital not found, please try again.");
@@ -145,8 +141,6 @@ sectionContainer.style.display = "none";
 
 // display desired information from APIcall
 function displayInfo(data) {
-  console.log(data);
-
   const countryName = `${data[0].name["common"]} ${data[0].flag}`;
   countryHeaderEl.innerHTML = countryName;
   appendDiv.appendChild(countryHeaderEl);
@@ -161,6 +155,7 @@ function displayInfo(data) {
   languageEl.innerText = data[0].languages[Object.keys(data[0].languages)[0]];
   // more information button is displayed with results after section container display set to block
   sectionContainer.style.display = "block";
+  console.log("Lat Long:" + data[0].latlng);
 
   // when clicking more info button, redirects to a wiki page with more information about location
   moreInfoBtn.addEventListener("click", function (e) {
@@ -183,50 +178,5 @@ function showAlert(message) {
   }, 3000);
 }
 
+const geoKey = "5ae2e3f221c38a28845f05b6cbad8c747db7d208a259ce9735c99ebd"
 
-
-
-
-
-
-
-
-
-
-
-
-// // get capital name by passing in user entered data -- old version
-// function getLocationCapital(name) {
-//     let requestURL = "https://restcountries.com/v3.1/capital/" + name
-//     console.log(requestURL);
-//     fetch(requestURL)
-//     .then(function(response){
-//         if(response.ok){
-//             console.log(response);
-//             response.json().then(function(data){
-//                 console.log(data);
-//                 displayInfo(data);
-//             });
-//         }else {
-//             alert('Country/Capital not found, please try again.');
-//         }
-//     })
-// }
-
-// get country name by passing in user input data -- old version
-// function getLocation(name) {
-//     let requestURL = `https://restcountries.com/v3.1/name/` + name
-//     console.log(requestURL);
-//     fetch(requestURL)
-//     .then(function(response){
-//         if(response.ok){
-//             console.log(response);
-//             response.json().then(function(data){
-//                 console.log(data);
-//                 displayInfo(data);
-//             });
-//         }else {
-//             alert('Country/Capital not found, please try again.');
-//         }
-//     })
-// }
